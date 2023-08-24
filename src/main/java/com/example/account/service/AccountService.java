@@ -34,10 +34,13 @@ public class AccountService {
     public AccountDto createAccount(Long userId, Long initialBalance) {
         AccountUser accountUser = accountUserRepository.findById(userId)
                 .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND)); // 커스텀 에러exception
+        // validation 코ㅡ
+        validateCreateAccount(accountUser);
+
         String newAccountNumber = accountRepository.findFirstByOrderByIdDesc()
-                .map(account -> (Integer.parseInt(account.getAccountNumber())) + 1 +"")
+                .map(account -> (Integer.parseInt(account.getAccountNumber())) + 1 + "")
                 .orElse("1000000000");
-   // 1. 일회용 변수는 지양.
+        // 1. 일회용 변수는 지양.
 //        Account saveAccount = accountRepository.save(
 //                Account.builder()
 //                        .accountUser(accountUser)
@@ -52,15 +55,20 @@ public class AccountService {
         // 2.
         return AccountDto.fromEntity(
                 accountRepository.save(Account.builder()
-                    .accountUser(accountUser)
-                    .accountStatus(IN_USE)
-                    .accountNumber(newAccountNumber)
-                    .balance(initialBalance)
-                    .registeredAt(LocalDateTime.now())
-                    .build())
+                        .accountUser(accountUser)
+                        .accountStatus(IN_USE)
+                        .accountNumber(newAccountNumber)
+                        .balance(initialBalance)
+                        .registeredAt(LocalDateTime.now())
+                        .build())
         );
     }
 
+    private void validateCreateAccount(AccountUser accountUser) {
+        if (accountRepository.countByAccountUser(accountUser) == 10) {
+            throw new AccountException(ErrorCode.MAX_ACCOUNT_PER_USER_10);
+        }
+    }
     @Transactional
     public Account getAccount(Long id) {
         if(id < 0){
