@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -90,6 +92,35 @@ class AccountControllerTest {
                 .andExpect(jsonPath("$.userId").value(1))
                 .andExpect(jsonPath("$.accountNumber").value("1234567890"))
                 .andDo(print()); // controller에 들어갈 요청이 content안에 들어가야함
+    }
+
+    @Test
+    void succesGetAccountsByUserID() throws Exception {
+        //given
+        List<AccountDto> accountDtos =
+                Arrays.asList(
+                        AccountDto.builder()
+                                .accountNumber("1234567890")
+                                .balance(1000L).build(),
+                        AccountDto.builder()
+                                .accountNumber("3456789012")
+                                .balance(2000L).build(),
+                        AccountDto.builder()
+                                .accountNumber("2222222222")
+                                .balance(3000L).build()
+                );
+        given(accountService.getAccoutsByUserId(anyLong()))
+                .willReturn(accountDtos);
+        //when
+        //then
+        mockMvc.perform(get("/account?user_id=1"))
+                .andDo(print())
+                .andExpect(jsonPath("$[0].accountNumber").value("1234567890"))
+                .andExpect(jsonPath("$[0].balance").value(1000))
+                .andExpect(jsonPath("$[1].accountNumber").value("3456789012"))
+                .andExpect(jsonPath("$[1].balance").value(2000))
+                .andExpect(jsonPath("$[2].accountNumber").value("2222222222"))
+                .andExpect(jsonPath("$[2].balance").value(3000));
     }
     @Test
     void successGetAccount() throws Exception {
