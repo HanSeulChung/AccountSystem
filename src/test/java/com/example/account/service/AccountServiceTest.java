@@ -20,7 +20,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -289,7 +288,7 @@ class AccountServiceTest {
         given(accountRepository.findByAccountUser(any()))
                 .willReturn(acounts);
         //when
-        List<AccountDto> accountDtos = accountService.getAccoutsByUserId(1L);
+        List<AccountDto> accountDtos = accountService.getAccountsByUserId(1L);
         //then
         assertEquals(3, accountDtos.size());
         assertEquals("1111111111", accountDtos.get(0).getAccountNumber());
@@ -307,7 +306,7 @@ class AccountServiceTest {
                 .willReturn(Optional.empty());
         //when
         AccountException exception = assertThrows(AccountException.class,
-                () -> accountService.getAccoutsByUserId(1L));
+                () -> accountService.getAccountsByUserId(1L));
         //then
         assertEquals(ErrorCode.USER_NOT_FOUND, exception.getErrorCode());
     }

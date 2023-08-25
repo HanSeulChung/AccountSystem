@@ -25,7 +25,6 @@ import static com.example.account.type.TransactionResultType.F;
 import static com.example.account.type.TransactionResultType.S;
 import static com.example.account.type.TransactionType.CANCLE;
 import static com.example.account.type.TransactionType.USE;
-import static javax.security.auth.callback.ConfirmationCallback.CANCEL;
 
 @Slf4j
 @Service
@@ -124,5 +123,12 @@ public class TransactionService {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
         saveAndGetTransaction(CANCLE, F ,amount, account);
+    }
+
+    public TransactionDto queryTransaction(String transactionId) {
+        return TransactionDto.fromEntity(
+                transactionRepository.findByTransactionId(transactionId)
+                        .orElseThrow(() -> new AccountException(ErrorCode.TRANSACTION_NOT_FOUND))
+        );
     }
 }

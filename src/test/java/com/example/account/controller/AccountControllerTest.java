@@ -7,7 +7,6 @@ import com.example.account.dto.DeleteAccount;
 import com.example.account.type.AccountStatus;
 import com.example.account.service.AccountService;
 import com.example.account.service.RedisTestService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +24,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -95,7 +92,7 @@ class AccountControllerTest {
     }
 
     @Test
-    void succesGetAccountsByUserID() throws Exception {
+    void successGetAccountsByUserID() throws Exception {
         //given
         List<AccountDto> accountDtos =
                 Arrays.asList(
@@ -109,7 +106,7 @@ class AccountControllerTest {
                                 .accountNumber("2222222222")
                                 .balance(3000L).build()
                 );
-        given(accountService.getAccoutsByUserId(anyLong()))
+        given(accountService.getAccountsByUserId(anyLong()))
                 .willReturn(accountDtos);
         //when
         //then
