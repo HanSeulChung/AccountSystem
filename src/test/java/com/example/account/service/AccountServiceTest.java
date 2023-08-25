@@ -312,5 +312,4 @@ class AccountServiceTest {
         assertEquals(ErrorCode.USER_NOT_FOUND, exception.getErrorCode());
     }
 
-
 }

@@ -1,6 +1,7 @@
 package com.example.account.dto;
 
 import com.example.account.domain.Account;
+import com.example.account.domain.Transaction;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -28,5 +29,4 @@ public class AccountDto {
                 .unregisteredAt(account.getUnregisteredAt())
                 .build();
     }
-
 }
