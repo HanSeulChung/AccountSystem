@@ -1,9 +1,19 @@
-### Send POST request with json body
+### Send POST request with json body : use balance
 POST http://localhost:8080/transaction/use
 Content-Type: application/json
 
 {
   "userId": 1,
   "accountNumber": "1000000001",
-  "amount": 12345
+  "amount": 10000
+}
+
+### Send POST request with json body : cancel balance
+POST http://localhost:8080/transaction/cancel
+Content-Type: application/json
+
+{
+  "transactionId": "12fb5f7e63b9431592e8a24d20d40006",
+  "accountNumber": "1000000001",
+  "amount": 10000
 }
