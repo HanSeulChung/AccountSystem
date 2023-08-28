@@ -53,6 +53,6 @@ class LockServiceTest {
         AccountException exception = assertThrows(AccountException.class,
                 () -> lockService.lock("123"));
         //then
-        assertEquals(ErrorCode.ACOUNT_TRANSACTION_LOCK, exception.getErrorCode());
+        assertEquals(ErrorCode.ACCOUNT_TRANSACTION_LOCK, exception.getErrorCode());
     }
 }

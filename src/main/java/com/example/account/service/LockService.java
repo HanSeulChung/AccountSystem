@@ -23,7 +23,7 @@ public class LockService {
             boolean isLock = lock.tryLock(1, 15, TimeUnit.SECONDS);
             if(!isLock) {
                 log.error("======Lock acquisition failed=====");
-                throw new AccountException(ErrorCode.ACOUNT_TRANSACTION_LOCK);
+                throw new AccountException(ErrorCode.ACCOUNT_TRANSACTION_LOCK);
             }
         } catch (Exception e) {
             log.error("Redis lock failed");

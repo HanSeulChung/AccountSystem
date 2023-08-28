@@ -17,27 +17,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Account {
-    @Id
-    @GeneratedValue
-    private Long id;
-
+public class Account extends BaseEntity {
     @ManyToOne
     private AccountUser accountUser;
     private String accountNumber;
 
-    @Enumerated(EnumType.STRING) // enum값이 DB에 저장되도록 annotation
+    @Enumerated(EnumType.STRING) // enum 값이 DB에 저장되도록 annotation
     private AccountStatus accountStatus;
     private Long balance;
 
     private LocalDateTime registeredAt;
     private LocalDateTime unregisteredAt;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 
     public void useBalance(Long amount) {
         if (amount > balance) {

@@ -18,16 +18,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class AccountUser {
-    @Id // 기본키 Id
-    @GeneratedValue
-    private Long id;
-
+public class AccountUser extends BaseEntity{
     private String name; // 사용자의 이름
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
  }

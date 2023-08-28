@@ -110,8 +110,10 @@ public class TransactionService {
         if (!Objects.equals(transaction.getAccount().getId(), account.getId())) {
             throw new AccountException(ErrorCode.TRANSACTION_ACCOUNT_UN_MATCH);
         }
-
-        if (!Objects.equals(transaction.getAmount(), amount)) {
+        if (transaction.getAmount() < amount) {
+            throw new AccountException(ErrorCode.CANCEL_AMOUNT_EXCEED_TRANSACTION);
+        }
+        if (transaction.getAmount() > amount) {
             throw new AccountException(ErrorCode.CANCEL_MUST_FULLY);
         }
         if (transaction.getTransactedAt().isBefore(LocalDateTime.now().minusYears((1)))){

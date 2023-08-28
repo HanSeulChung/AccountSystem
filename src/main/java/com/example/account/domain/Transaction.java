@@ -17,11 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Transaction {
-    @Id
-    @GeneratedValue
-    private Long id;  // id는 Account에서도 쓰고있으니 따로 클래스를 만들어 상속받는 구조로 해도 된다.
+public class Transaction extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
@@ -36,9 +32,5 @@ public class Transaction {
     private String transactionId;
     private LocalDateTime transactedAt;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 
 }
