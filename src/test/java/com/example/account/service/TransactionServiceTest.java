@@ -25,7 +25,7 @@ import java.util.Optional;
 import static com.example.account.type.AccountStatus.IN_USE;
 import static com.example.account.type.TransactionResultType.F;
 import static com.example.account.type.TransactionResultType.S;
-import static com.example.account.type.TransactionType.CANCLE;
+import static com.example.account.type.TransactionType.CANCEL;
 import static com.example.account.type.TransactionType.USE;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -262,7 +262,7 @@ class TransactionServiceTest {
         given(transactionRepository.save(any()))
                 .willReturn(Transaction.builder()
                         .account(account)
-                        .transactionType(CANCLE)
+                        .transactionType(CANCEL)
                         .transactionResultType(S)
                         .transactionId("transactionId")
                         .transactedAt(LocalDateTime.now())
@@ -279,7 +279,7 @@ class TransactionServiceTest {
         assertEquals(200L, captor.getValue().getAmount());
         assertEquals(10000L + 200L, captor.getValue().getBalanceSnapshot());
         assertEquals(S, transactionDto.getTransactionResultType());
-        assertEquals(CANCLE, transactionDto.getTransactionType());
+        assertEquals(CANCEL, transactionDto.getTransactionType());
         assertEquals(9000L, transactionDto.getBalanceSnapshot());
         assertEquals(200L, transactionDto.getAmount());
     }

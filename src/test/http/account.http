@@ -1,5 +1,5 @@
 ### Send GET request with json body
-GET http://localhost:8080/account?user_id=2
+GET http://localhost:8080/account?user_id=1
 Content-Type: application/json
 
 ### Send POST request with json body

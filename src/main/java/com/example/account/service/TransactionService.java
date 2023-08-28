@@ -23,8 +23,7 @@ import java.util.UUID;
 
 import static com.example.account.type.TransactionResultType.F;
 import static com.example.account.type.TransactionResultType.S;
-import static com.example.account.type.TransactionType.CANCLE;
-import static com.example.account.type.TransactionType.USE;
+import static com.example.account.type.TransactionType.*;
 
 @Slf4j
 @Service
@@ -103,7 +102,7 @@ public class TransactionService {
         validateCancelBalance(transaction, account, amount);
         account.cancelBalance(amount);
 
-        return TransactionDto.fromEntity(saveAndGetTransaction(CANCLE, S, amount, account));
+        return TransactionDto.fromEntity(saveAndGetTransaction(CANCEL, S, amount, account));
     }
 
     private void validateCancelBalance(Transaction transaction, Account account, Long amount) {
@@ -124,7 +123,7 @@ public class TransactionService {
     public void saveFailedCancelTransaction(String accountNumber, Long amount) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
-        saveAndGetTransaction(CANCLE, F ,amount, account);
+        saveAndGetTransaction(CANCEL, F ,amount, account);
     }
 
     public TransactionDto queryTransaction(String transactionId) {

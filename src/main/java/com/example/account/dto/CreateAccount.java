@@ -33,7 +33,6 @@ public class CreateAccount {
         private LocalDateTime registeredAt;
 
         public static Response from(AccountDto accountDto) {
-//            return new CreateAccount.Response(accountDto.getUserId(), accountDto.getAccountNumber(), accountDto.getRegisteredAt());
             return Response.builder()
                     .userId(accountDto.getUserId())
                     .accountNumber(accountDto.getAccountNumber())

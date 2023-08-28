@@ -48,7 +48,7 @@ public class AccountController {
         return accountService.getAccountsByUserId(userId)
                 .stream().map(accountDto -> AccountInfo.builder()
                         .accountNumber(accountDto.getAccountNumber())
-                        .balance(accountDto.getBalance())  // 스트림으로하면 성능이 떨어짐..
+                        .balance(accountDto.getBalance())
                         .build())
                 .collect(Collectors.toList());
     }

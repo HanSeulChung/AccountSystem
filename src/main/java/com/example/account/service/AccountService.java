@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.account.type.AccountStatus.IN_USE;
@@ -25,7 +24,7 @@ import static com.example.account.type.ErrorCode.*;
 public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountUserRepository accountUserRepository;
-
+    private Set<String> generatedAccountNumbers = new HashSet<>();
     // /**하고 엔터 치면 자동으로 파라미터 생성됨
 
     /**
@@ -36,25 +35,11 @@ public class AccountService {
     @Transactional
     public AccountDto createAccount(Long userId, Long initialBalance) {
         AccountUser accountUser = getAccountUser(userId);
-        // validation 코ㅡ
+        // validation 코드
         validateCreateAccount(accountUser);
 
-        String newAccountNumber = accountRepository.findFirstByOrderByIdDesc()
-                .map(account -> (Integer.parseInt(account.getAccountNumber())) + 1 + "")
-                .orElse("1000000000");
-        // 1. 일회용 변수는 지양.
-//        Account saveAccount = accountRepository.save(
-//                Account.builder()
-//                        .accountUser(accountUser)
-//                        .accountStatus(IN_USE)
-//                        .accountNumber(newAccountNumber)
-//                        .balance(initialBalance)
-//                        .registeredAt(LocalDateTime.now())
-//                        .build()
-//        );
-//        return AccountDto.fromEntity(saveAccount);
+        String newAccountNumber =generateRandomAccountNumber();
 
-        // 2.
         return AccountDto.fromEntity(
                 accountRepository.save(Account.builder()
                         .accountUser(accountUser)
@@ -64,6 +49,19 @@ public class AccountService {
                         .registeredAt(LocalDateTime.now())
                         .build())
         );
+    }
+    private String generateRandomAccountNumber() {
+        Random random = new Random();
+        long randomAccountNumber = 1000000000L + ((long) (random.nextDouble() * (9999999999L - 1000000000L))); // 1000000000 ~ 9999999999 사이의 숫자 생성
+        String accountNumber = String.valueOf(randomAccountNumber);
+
+        while (generatedAccountNumbers.contains(randomAccountNumber)) {
+            randomAccountNumber = 1000000000L + ((long) (random.nextDouble() * (9999999999L - 1000000000L)));
+            accountNumber = String.valueOf(randomAccountNumber);
+        }
+
+        generatedAccountNumbers.add(accountNumber);
+        return accountNumber;
     }
 
     private void validateCreateAccount(AccountUser accountUser) {

@@ -18,10 +18,8 @@ import static org.mockito.BDDMockito.given;
 class LockServiceTest {
     @Mock
     private RedissonClient redissonClient;
-
     @Mock
     private RLock rLock;
-
     @InjectMocks
     private LockService lockService;
 
@@ -38,7 +36,6 @@ class LockServiceTest {
         //then
         assertDoesNotThrow(() -> lockService.lock("123"));
     }
-
 
     @Test
     void failGetLock() throws InterruptedException {
